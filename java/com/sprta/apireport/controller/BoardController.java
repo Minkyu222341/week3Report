@@ -4,6 +4,7 @@ import com.sprta.apireport.domain.Board;
 import com.sprta.apireport.domain.BoardMapping;
 import com.sprta.apireport.domain.BoardRequestDto;
 import com.sprta.apireport.domain.BoardValidDto;
+import com.sprta.apireport.repository.BoardRepository;
 import com.sprta.apireport.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class BoardController {
 
     private final BoardService boardService;
-
+    private final BoardRepository boardRepository;
     @GetMapping("/board")
         public List<BoardMapping> getList() {
         return boardService.getBoardList();

@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,10 +25,10 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
         log.info("board password={}", board.getPassword());
         log.info("update password={}", boardRequestDto.getPassword());
-        if (board.getPassword().equals(boardRequestDto.getPassword())) {
+        if(board.getPassword().equals(boardRequestDto.getPassword())){
             board.update(boardRequestDto);
-            return board.getId() + "번 수정완료";
-        } else {
+            return board.getId()+"번 수정완료";
+        }else {
             return "비밀번호를 확인해주세요";
         }
     }
@@ -38,8 +37,8 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다"));
         if (board.getPassword().equals(boardValidDto.getPassword())) {
             boardRepository.delete(board);
-            return board.getId() + "번 삭제완료";
-        } else {
+            return board.getId()+"번 삭제완료";
+        }else{
             return "비밀번호를 확인해주세요";
         }
     }
@@ -49,15 +48,15 @@ public class BoardService {
 
         if (board.getPassword().equals(boardValidDto.getPassword())) {
             return true;
-        } else {
+        }else{
             return false;
         }
     }
 
     public List<BoardMapping> getBoardList() {
-        LocalDateTime start = LocalDateTime.now().minusDays(1);
-        LocalDateTime end = LocalDateTime.now();
-        return boardRepository.findAllByModifiedAtBetweenOrderByModifiedAtDesc(start, end);
+//        LocalDateTime start = LocalDateTime.now().minusDays(1);
+//        LocalDateTime end = LocalDateTime.now();
+        return boardRepository.findAllByOrderByCreatedAtDesc();
     }
 
     public Optional<Board> detailPost(Long id) {
@@ -68,4 +67,5 @@ public class BoardService {
         Board board = new Board(boardRequestDto);
         return boardRepository.save(board);
     }
+
 }
